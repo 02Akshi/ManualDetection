@@ -6,50 +6,31 @@ function App() {
   const [imageFile, setImageFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading1, setLoading1] = useState(false);
-  const [loading2, setLoading2] = useState(false);
   const [result1, setResult1] = useState(null);
-  const [result2, setResult2] = useState(null);
 
   const handleImageUpload = (file) => {
     setImageFile(file);
     setPreview(URL.createObjectURL(file));
     setResult1(null);
-    setResult2(null);
   };
 
-  const handlePredict = async (model) => {
+  const handlePredict = async () => {
     if (!imageFile) return;
     const formData = new FormData();
     formData.append('file', imageFile);
-    if (model === 1) {
-      setLoading1(true);
-      setResult1(null);
-      try {
-        const response = await fetch('http://localhost:8000/predict/', {
-          method: 'POST',
-          body: formData,
-        });
-        const data = await response.json();
-        setResult1(data);
-      } catch (error) {
-        setResult1({ error: 'Error connecting to backend.' });
-      }
-      setLoading1(false);
-    } else if (model === 2) {
-      setLoading2(true);
-      setResult2(null);
-      try {
-        const response = await fetch('http://localhost:8000/predict_model2/', {
-          method: 'POST',
-          body: formData,
-        });
-        const data = await response.json();
-        setResult2(data);
-      } catch (error) {
-        setResult2({ error: 'Error connecting to backend.' });
-      }
-      setLoading2(false);
+    setLoading1(true);
+    setResult1(null);
+    try {
+      const response = await fetch('http://localhost:8000/predict/', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      setResult1(data);
+    } catch (error) {
+      setResult1({ error: 'Error connecting to backend.' });
     }
+    setLoading1(false);
   };
 
   return (
@@ -62,7 +43,7 @@ function App() {
             <img src={preview} alt="Preview" style={{ maxWidth: 300, border: '1px solid #ccc' }} />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 350 }}>
-            <button onClick={() => handlePredict(1)} disabled={loading1} style={{ marginBottom: 16 }}>
+            <button onClick={handlePredict} disabled={loading1} style={{ marginBottom: 16 }}>
               {loading1 ? 'Analyzing...' : 'Check for Manual'}
             </button>
             {result1 && (
