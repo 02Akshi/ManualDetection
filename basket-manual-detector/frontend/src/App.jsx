@@ -57,60 +57,36 @@ function App() {
       <h1>Basket Manual Detector</h1>
       <ImageCapture onImageUpload={handleImageUpload} />
       {preview && (
-        <div style={{ margin: '20px 0' }}>
-          <img src={preview} alt="Preview" style={{ maxWidth: 300, border: '1px solid #ccc' }} />
-        </div>
-      )}
-      {imageFile && (
-        <div style={{ display: 'flex', gap: '2rem', marginBottom: 24 }}>
-          <div>
-            <button onClick={() => handlePredict(1)} disabled={loading1}>
-              {loading1 ? 'Analyzing...' : 'Model 1'}
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start', margin: '20px 0' }}>
+          <div style={{ textAlign: 'center', marginRight: 32 }}>
+            <img src={preview} alt="Preview" style={{ maxWidth: 300, border: '1px solid #ccc' }} />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 350 }}>
+            <button onClick={() => handlePredict(1)} disabled={loading1} style={{ marginBottom: 16 }}>
+              {loading1 ? 'Analyzing...' : 'Check for Manual'}
             </button>
             {result1 && (
-              <div style={{ marginTop: 12 }}>
-                <h2>Model 1 Result:</h2>
+              <div style={{ marginTop: 12, width: 350 }}>
+                <h2 style={{ textAlign: 'center' }}>Result:</h2>
                 {result1.error ? (
-                  <p style={{ color: 'red' }}>{result1.error}</p>
+                  <div style={{ background: '#ffdddd', color: 'red', padding: 12, borderRadius: 6, textAlign: 'center', fontWeight: 600 }}>
+                    {result1.error}
+                  </div>
                 ) : (
-                  <>
-                    <p>
-                      {result1.contains_manual
-                        ? 'Manual detected in freezer!'
-                        : 'No manual found.'}
-                    </p>
-                    {'raw_prediction' in result1 && (
-                      <p style={{ fontSize: '0.9em', color: '#888' }}>
-                        Raw prediction value: {result1.raw_prediction}
-                      </p>
-                    )}
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-          <div>
-            <button onClick={() => handlePredict(2)} disabled={loading2}>
-              {loading2 ? 'Analyzing...' : 'Model 2'}
-            </button>
-            {result2 && (
-              <div style={{ marginTop: 12 }}>
-                <h2>Model 2 Result:</h2>
-                {result2.error ? (
-                  <p style={{ color: 'red' }}>{result2.error}</p>
-                ) : (
-                  <>
-                    <p>
-                      {result2.contains_manual
-                        ? 'Manual detected in freezer!'
-                        : 'No manual found.'}
-                    </p>
-                    {'raw_prediction' in result2 && (
-                      <p style={{ fontSize: '0.9em', color: '#888' }}>
-                        Raw prediction value: {result2.raw_prediction}
-                      </p>
-                    )}
-                  </>
+                  <div style={{
+                    background: result1.contains_manual ? '#d4edda' : '#f8d7da',
+                    color: result1.contains_manual ? '#155724' : '#721c24',
+                    padding: 16,
+                    borderRadius: 8,
+                    textAlign: 'center',
+                    fontWeight: 600,
+                    fontSize: '1.2em',
+                    marginBottom: 8
+                  }}>
+                    {result1.contains_manual
+                      ? 'Manual detected in freezer!'
+                      : 'No manual found.'}
+                  </div>
                 )}
               </div>
             )}
