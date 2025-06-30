@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import './App.css';
 import ImageCapture from './components/ImageCapture';
+import Login from './components/Login';
 
 function App() {
   const [imageFile, setImageFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading1, setLoading1] = useState(false);
   const [result1, setResult1] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const handleImageUpload = (file) => {
     setImageFile(file);
@@ -21,17 +23,27 @@ function App() {
     setLoading1(true);
     setResult1(null);
     try {
-      const response = await fetch('http://localhost:8000/predict/', {
+      const response = await fetch('http://localhost:8000/api/predict/', {
         method: 'POST',
         body: formData,
+        credentials: 'include',
       });
-      const data = await response.json();
-      setResult1(data);
+      if (!response.ok) {
+        const errorData = await response.json();
+        setResult1({ error: errorData.error || 'Prediction failed.' });
+      } else {
+        const data = await response.json();
+        setResult1(data);
+      }
     } catch (error) {
       setResult1({ error: 'Error connecting to backend.' });
     }
     setLoading1(false);
   };
+
+  if (!isAuthenticated) {
+    return <Login onLogin={() => setIsAuthenticated(true)} />;
+  }
 
   return (
     <div className="App" style={{ padding: 24 }}>
