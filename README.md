@@ -24,32 +24,32 @@ This Python program specializes in detecting if a specific manual appears in dif
 
 3. **(Recommended) Create and activate a virtual environment:**
    ```bash
-   python3 -m venv venv
-   source venv/bin/activate
+    sudo apt install virtualenv
+    mkdir /opt/model-detector
+    virtualenv -p python3 /opt/model-detector/plugins
+    source /opt/model-detector/plugins/bin/activate
    ```
-
+4. **Clone the project:** 
+    sudo git clone <your-repo-url> /opt/model-detector/
+    cd /opt/model-detector/backend
+    
 4. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-5. **Apply database migrations:**
-   ```bash
-   python manage.py migrate
-   ```
-
-6. **(Optional) Create a Django superuser:**
+5. **(Optional) Create a Django superuser:**
    ```bash
    python manage.py createsuperuser
    ```
 
-7. **Run the backend server:**
+6. **Run the backend server:**
    ```bash
    python manage.py runserver 0.0.0.0:8000
    ```
    The API will be available at `http://localhost:8000/` (or your server’s IP).
 
-8. **API Endpoints:**
+7. **API Endpoints:**
    - `POST /predict/` — Upload an image for prediction (requires authentication).
    - `POST /login/` — Login endpoint.
    - `POST /logout/` — Logout endpoint.

@@ -47,7 +47,7 @@ function App() {
 
   return (
     <div className="App" style={{ padding: 24 }}>
-      <h1>Basket Manual Detector</h1>
+      <h1>Instruction Manual Detector</h1>
       <ImageCapture onImageUpload={handleImageUpload} />
       {preview && (
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start', margin: '20px 0' }}>
